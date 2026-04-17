@@ -9,14 +9,24 @@ import { toast } from "@/components/ui/use-toast";
 import { useUsersApi } from "@/lib/apis/users/users-hook";
 import { safePromise } from "@/lib/utils";
 import { formatDate, getClockTime } from "@/lib/utils/time";
-import { RefreshCw } from "lucide-react";
-import { useMemo } from "react";
+import { Filter, RefreshCw } from "lucide-react";
+import { useMemo, useState } from "react";
+import {
+  filterUsersModal,
+  UsersFilterValues,
+} from "./_module/components/user-filter-modal.component";
 import { confirmDeleteUserModal, formUserModal } from "./_module/components/user-modals.component";
 
 export default function UsersPage() {
   const { useGetUsers, useDeleteUser } = useUsersApi();
-  const { fetcher, limit, page, setLimit, setPage, handleSearch } = useGetUsers();
+  const [filters, setFilters] = useState<UsersFilterValues>({ sort: "newest" });
+  const { fetcher, limit, page, setLimit, setPage, handleSearch } = useGetUsers({
+    sort: filters.sort,
+    role: filters.role,
+  });
   const { mutateAsync: deleteUser } = useDeleteUser();
+
+  const hasActiveFilters = filters.sort !== "newest" || filters.role;
 
   const users = useMemo(() => {
     return fetcher?.data?.data ?? [];
@@ -100,9 +110,24 @@ export default function UsersPage() {
         ]}
         data={users}
         headerChildren={
-          <Button className="py-6 px-4 w-min" variant="outline" size="lg" onClick={onRefresh}>
-            <RefreshCw className="h-4 w-4" />
-          </Button>
+          <>
+            <div className="relative">
+              <Button
+                className="py-6 px-4 w-min"
+                variant="outline"
+                size="lg"
+                onClick={filterUsersModal(filters, setFilters).open}
+              >
+                <Filter className="h-4 w-4" />
+                {hasActiveFilters && (
+                  <span className="absolute top-1 right-1 w-2 h-2 bg-primary rounded-full" />
+                )}
+              </Button>
+            </div>
+            <Button className="py-6 px-4 w-min" variant="outline" size="lg" onClick={onRefresh}>
+              <RefreshCw className="h-4 w-4" />
+            </Button>
+          </>
         }
         limit={limit}
         page={page}

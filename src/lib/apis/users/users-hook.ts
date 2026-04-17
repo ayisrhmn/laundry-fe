@@ -20,13 +20,17 @@ export function useUsersApi() {
     });
 
     const fetcher = useQuery({
-      queryKey: [usersApiQueryKeys.GET_USERS, { limit, page, search, role: filters?.role }],
+      queryKey: [
+        usersApiQueryKeys.GET_USERS,
+        { limit, page, search, role: filters?.role, sort: filters?.sort },
+      ],
       queryFn: async () => {
         return await usersApi.getUsers({
           limit,
           page,
           search,
           role: filters?.role,
+          sort: filters?.sort,
         });
       },
       staleTime: 0,

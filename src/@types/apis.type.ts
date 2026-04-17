@@ -6,7 +6,7 @@ export type PaginatedFilters = {
   limit?: number;
   page?: number;
   search?: string;
-  sort?: string;
+  sort?: "newest" | "oldest";
 };
 
 export type BaseApiResult<T> = {
