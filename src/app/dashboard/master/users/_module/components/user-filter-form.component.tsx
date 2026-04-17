@@ -32,7 +32,7 @@ export function UserFilterForm({
 
   return (
     <div className="py-2 space-y-4">
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="w-full space-y-2">
           <Label>Urutan</Label>
           <FlexibleSelect
