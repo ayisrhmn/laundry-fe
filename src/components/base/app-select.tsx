@@ -75,7 +75,7 @@ export function FlexibleSelect({
   emptyText = "Belum ada item",
   errorText = "Gagal memuat item",
 }: FlexibleSelectProps) {
-  const [displayValue, setDisplayValue] = useState("");
+  const [displayValue, setDisplayValue] = useState(value ?? "");
   const [isOpen, setIsOpen] = useState(false);
   const [localSearchQuery, setLocalSearchQuery] = useState("");
 
@@ -107,6 +107,11 @@ export function FlexibleSelect({
     }
   };
 
+  const handleValueChange = (newValue: string) => {
+    setDisplayValue(newValue);
+    onValueChange?.(newValue);
+  };
+
   const currentSearchQuery = onSearchChange ? searchQuery : localSearchQuery;
 
   useEffect(() => {
@@ -124,15 +129,14 @@ export function FlexibleSelect({
   }, [isOpen, onSearchChange]);
 
   useEffect(() => {
-    if (value) {
-      setDisplayValue(value);
-    }
+    // Update displayValue when value prop changes, including empty strings
+    setDisplayValue(value ?? "");
   }, [value]);
 
   return (
     <Select
       value={displayValue}
-      onValueChange={onValueChange}
+      onValueChange={handleValueChange}
       disabled={disabled}
       open={isOpen}
       onOpenChange={setIsOpen}
@@ -162,7 +166,7 @@ export function FlexibleSelect({
           </div>
         )}
 
-        <div className="max-h-[200px] overflow-y-auto">
+        <div className="max-h-50 overflow-y-auto">
           {loading && options.length === 0 && (
             <div className="flex items-center justify-center py-4">
               <LoaderIcon className="mr-2 h-4 w-4 animate-spin" />

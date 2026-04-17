@@ -23,8 +23,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "SayPOS Admin",
-  description: "SayPOS Admin is the web-based dashboard for managing the SayPOS ecosystem",
+  title: "Laundry Admin",
+  description: "Laundry Admin is the web-based dashboard for managing the Laundry ecosystem",
 };
 
 export default async function RootLayout({

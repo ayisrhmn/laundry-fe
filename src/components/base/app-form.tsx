@@ -5,6 +5,7 @@ import { formatThousandSeparator, normalizeBackendValue } from "@/lib/utils/mone
 import { useEffect, useState } from "react";
 import { FormControl, FormItem, FormLabel, FormMessage } from "../ui/form";
 import { Input } from "../ui/input";
+import { Switch } from "../ui/switch";
 import { Textarea } from "../ui/textarea";
 import { FlexibleSelect, FlexibleSelectProps } from "./app-select";
 
@@ -154,6 +155,43 @@ export function FormSelectInput({
           {...props}
         />
       </FormControl>
+      <FormMessage />
+    </FormItem>
+  );
+}
+
+type FormSwitchProps = {
+  label?: string;
+  description?: string;
+  isRequired?: boolean;
+  value?: boolean;
+  onChange?: (value: boolean) => void;
+};
+
+export function FormSwitch({
+  label,
+  description,
+  isRequired,
+  value = false,
+  onChange,
+  ...props
+}: FormSwitchProps) {
+  return (
+    <FormItem>
+      <div className="flex items-center justify-between w-full">
+        <div className="space-y-0.5">
+          {label && (
+            <FormLabel>
+              {label}
+              {isRequired && <span className="text-red-500 -ml-1.5">*</span>}
+            </FormLabel>
+          )}
+          {description && <p className="text-sm text-muted-foreground">{description}</p>}
+        </div>
+        <FormControl>
+          <Switch checked={value} onCheckedChange={onChange} {...props} />
+        </FormControl>
+      </div>
       <FormMessage />
     </FormItem>
   );

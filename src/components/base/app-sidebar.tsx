@@ -16,9 +16,8 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 
-import { NAVIGATION_MAIN, NAVIGATION_SECONDARY } from "@/constants/paths";
+import { NAVIGATION_MAIN } from "@/constants/paths";
 import { NavMain } from "./nav/nav-main";
-import { NavSecondary } from "./nav/nav-secondary";
 import { NavUser } from "./nav/nav-user";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
@@ -35,7 +34,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   <Command className="size-4" />
                 </div>
                 <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-medium">SayPOS</span>
+                  <span className="truncate font-medium">Laundry</span>
                   <span className="truncate text-xs">Admin</span>
                 </div>
               </Link>
@@ -45,14 +44,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={NAVIGATION_MAIN} />
-        <NavSecondary items={NAVIGATION_SECONDARY} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>
         <NavUser
           user={{
-            name: String(data?.user?.name),
-            email: String(data?.user?.email),
-            avatar: data?.user?.image ?? null,
+            name: String(data?.user?.fullName),
+            username: String(data?.user?.username),
           }}
         />
       </SidebarFooter>

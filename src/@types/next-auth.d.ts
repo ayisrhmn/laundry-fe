@@ -1,15 +1,10 @@
 import { DefaultSession } from "next-auth";
+import { User } from "./module/users/response";
 
 declare module "next-auth" {
   interface Session extends DefaultSession {
     expires: string;
-    user: {
-      email: string;
-      name: string;
-      token: string;
-      id: string;
-      image: string;
-    };
+    user: User;
     token: string;
     status: string;
   }

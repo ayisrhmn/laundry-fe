@@ -5,13 +5,12 @@ export const API_URL = `${API_BASE_URL}/api`;
 
 export const ENDPOINTS = {
   auth: {
-    signin: "/auth/user/login",
-    signup: "/user/register",
+    login: "/auth/login",
+    register: "/auth/register",
   },
-  user: "/user",
-  branch: "/branch",
-  file: "/file",
-  product: "/product",
-  productType: "/productType",
-  stock: "/stok",
+  users: "/users",
+  customers: "/customers",
+  services: "/services",
+  orders: "/orders",
+  discountRules: "/discount-rules",
 };

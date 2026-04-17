@@ -11,54 +11,69 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Form, FormField } from "@/components/ui/form";
-import { loginUserSchema, LoginUserSchema } from "@/lib/apis/auth/auth-schema";
-import { getDeviceInfo } from "@/lib/utils";
+import { toast } from "@/components/ui/use-toast";
+import { loginSchema, LoginSchema } from "@/lib/apis/auth/auth-schema";
+import { useRouter } from "@bprogress/next";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "next-auth/react";
 import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 
 function AuthAdminPage() {
+  const router = useRouter();
+
   const [loading, setLoading] = useState(false);
 
-  const deviceInfo = getDeviceInfo();
-
   const formRef = useRef<HTMLFormElement>(null);
-  const form = useForm<LoginUserSchema>({
-    resolver: zodResolver(loginUserSchema),
+  const form = useForm<LoginSchema>({
+    resolver: zodResolver(loginSchema),
     defaultValues: {
-      email: "",
+      username: "",
       password: "",
-      deviceInfo,
     },
   });
 
-  const handleLogin = async (data: LoginUserSchema) => {
+  const handleLogin = async (data: LoginSchema) => {
     setLoading(true);
-    await signIn("credentials", {
-      email: data.email,
+    const result = await signIn("credentials", {
+      username: data.username,
       password: data.password,
-      deviceInfo: JSON.stringify(data.deviceInfo),
-      callbackUrl: "/dashboard",
-      redirect: true,
+      redirect: false,
     });
+
+    if (result?.error) {
+      toast({
+        title: "Login Gagal",
+        description: "Terjadi kesalahan saat login. Pastikan username dan password benar.",
+        variant: "destructive",
+      });
+      setLoading(false);
+      return;
+    }
+
+    toast({
+      title: "Login Berhasil",
+      description: "Anda berhasil masuk ke Laundry Admin.",
+      variant: "success",
+    });
+    router.push("/dashboard");
     setLoading(false);
   };
 
   return (
     <Card className="w-full sm:max-w-md">
       <CardHeader>
-        <CardTitle className="text-2xl">SayPOS Admin</CardTitle>
-        <CardDescription>Masukkan email dan password untuk akses SayPOS Admin.</CardDescription>
+        <CardTitle className="text-2xl">Laundry Admin</CardTitle>
+        <CardDescription>Masukkan username dan password untuk akses Laundry Admin.</CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(handleLogin)} ref={formRef} className="space-y-4">
             <FormField
               control={form.control}
-              name="email"
+              name="username"
               render={({ field }) => (
-                <FormInput label="Email" placeholder="Masukkan email" isRequired {...field} />
+                <FormInput label="Username" placeholder="Masukkan username" isRequired {...field} />
               )}
             />
             <FormField

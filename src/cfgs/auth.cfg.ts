@@ -1,20 +1,13 @@
+import { User, UserRole } from "@/@types/module/users/response";
 import { authApi } from "@/lib/apis";
 import { exactNetError } from "@/lib/utils";
 import { NextAuthOptions, Session } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
-type UserCredResult = {
-  id: string;
-  email: string;
-  image: string;
-  name: string;
-  token: string;
-};
-
 export const nextAuthConfig: NextAuthOptions = {
   cookies: {
     sessionToken: {
-      name: "saypos-admin-token",
+      name: "laundry-fe-session-token",
       options: {
         httpOnly: true,
         sameSite: "lax",
@@ -28,9 +21,8 @@ export const nextAuthConfig: NextAuthOptions = {
       id: "credentials",
       name: "credentials",
       credentials: {
-        email: { type: "text" },
+        username: { type: "text" },
         password: { type: "password" },
-        deviceInfo: { type: "text" },
       },
       async authorize(credentials) {
         try {
@@ -38,21 +30,18 @@ export const nextAuthConfig: NextAuthOptions = {
             throw new Error("No credentials provided");
           }
 
-          const deviceInfo = JSON.parse(String(credentials.deviceInfo));
-
-          const loginResult = await authApi.login(
-            credentials.email,
-            credentials.password,
-            deviceInfo,
-          );
+          const loginResult = await authApi.login(credentials.username, credentials.password);
 
           return await Promise.resolve({
             id: loginResult.data.user.id,
-            name: loginResult.data.user.name,
-            email: credentials.email,
-            image: loginResult.data?.user?.image,
+            username: loginResult.data.user.username,
+            fullName: loginResult.data.user.fullName,
+            role: loginResult.data.user.role,
+            isActive: loginResult.data.user.isActive,
+            createdAt: loginResult.data.user.createdAt,
+            updatedAt: loginResult.data.user.updatedAt,
             token: loginResult.data.token,
-          } as UserCredResult);
+          } as User);
         } catch (error) {
           throw new Error(exactNetError(error as Error), { cause: error });
         }
@@ -62,11 +51,10 @@ export const nextAuthConfig: NextAuthOptions = {
       id: "register",
       name: "register",
       credentials: {
-        name: { type: "text" },
-        email: { type: "text" },
-        phone: { type: "text" },
-        password: { type: "password" },
-        confirmPassword: { type: "password" },
+        username: { type: "text" },
+        password: { type: "text" },
+        confirmPassword: { type: "text" },
+        fullName: { type: "password" },
         role: { type: "text" },
       },
       async authorize(credentials) {
@@ -75,24 +63,24 @@ export const nextAuthConfig: NextAuthOptions = {
             throw new Error("No credentials provided");
           }
 
-          const role = JSON.parse(String(credentials.role));
-
-          const registerUser = await authApi.registerUser({
-            name: credentials.name,
-            email: credentials.email,
-            phone: credentials.phone,
+          const registerUser = await authApi.register({
+            username: credentials.username,
             password: credentials.password,
             confirmPassword: credentials.confirmPassword,
-            role,
+            fullName: credentials.fullName,
+            role: credentials.role as UserRole,
           });
 
           return await Promise.resolve({
             id: registerUser.data.user.id,
-            name: registerUser.data.user.name,
-            email: credentials.email,
-            image: registerUser.data?.user?.image,
+            username: registerUser.data.user.username,
+            fullName: registerUser.data.user.fullName,
+            role: registerUser.data.user.role,
+            isActive: registerUser.data.user.isActive,
+            createdAt: registerUser.data.user.createdAt,
+            updatedAt: registerUser.data.user.updatedAt,
             token: registerUser.data.token,
-          } as UserCredResult);
+          } as User);
         } catch (error) {
           throw new Error(exactNetError(error as Error), { cause: error });
         }
@@ -115,16 +103,19 @@ export const nextAuthConfig: NextAuthOptions = {
   },
   callbacks: {
     session(params) {
-      const token = params.token as UserCredResult;
-      const session = params.session as Session & UserCredResult;
+      const token = params.token as User;
+      const session = params.session as Session & User;
 
       if (token?.id) {
-        session.token = token.token;
+        session.token = token.token as string;
         session.user = {
           id: token.id,
-          email: token.email,
-          image: token.image,
-          name: token.name,
+          username: token.username,
+          fullName: token.fullName,
+          role: token.role,
+          isActive: token.isActive,
+          createdAt: token.createdAt,
+          updatedAt: token.updatedAt,
           token: token.token,
         };
       }
@@ -132,7 +123,7 @@ export const nextAuthConfig: NextAuthOptions = {
       return session;
     },
     jwt(params) {
-      const user = params.user as UserCredResult;
+      const user = params.user as User;
       if (user?.token) {
         params.token = user;
         params.token.sub = user.id;

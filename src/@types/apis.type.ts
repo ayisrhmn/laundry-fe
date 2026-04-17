@@ -1,30 +1,28 @@
-interface BaseApiOptions {
+export type BaseApiOptions = {
   baseURL?: string;
-}
+};
 
-type PaginatedFilters = {
+export type PaginatedFilters = {
   limit?: number;
   page?: number;
   search?: string;
-  populate?: string;
   sort?: string;
 };
 
-type BaseApiResult<T> = {
-  data: T;
+export type BaseApiResult<T> = {
   message: string;
   status: number;
+  data: T;
 };
 
-type BasePaginatedApiResult<T> = {
+export type BasePaginatedApiResult<T> = {
   message: string;
   status: number;
   data: T;
   pagination: {
     total: number;
+    page: number;
     limit: number;
-    offset: number;
-    currentPage: number;
-    totalPage: number;
+    totalPages: number;
   };
 };

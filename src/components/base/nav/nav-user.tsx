@@ -1,11 +1,10 @@
 "use client";
 
-import { Bell, ChevronsUpDown, LogOut, User2 } from "lucide-react";
+import { ChevronsUpDown, LogOut } from "lucide-react";
 
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
@@ -26,7 +25,7 @@ export function NavUser({
 }: {
   user: {
     name: string;
-    email: string;
+    username: string;
     avatar?: string | null;
   };
 }) {
@@ -34,8 +33,8 @@ export function NavUser({
 
   const handleLogout = async () => {
     try {
-      localStorage.clear();
       await signOut({ callbackUrl: "/auth/login", redirect: true });
+      localStorage.clear();
     } catch (error) {
       toast({
         variant: "destructive",
@@ -57,7 +56,7 @@ export function NavUser({
               <AppAvatar avatar={user.avatar} name={user.name} />
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-medium">{user.name}</span>
-                <span className="truncate text-xs">{user.email}</span>
+                <span className="truncate text-xs">@{user.username}</span>
               </div>
               <ChevronsUpDown className="ml-auto size-4" />
             </SidebarMenuButton>
@@ -72,22 +71,11 @@ export function NavUser({
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <AppAvatar avatar={user.avatar} name={user.name} />
                 <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-medium">{user.name}</span>
-                  <span className="truncate text-xs">{user.email}</span>
+                  <span className="truncate font-semibold">{user.name}</span>
+                  <span className="truncate text-xs">@{user.username}</span>
                 </div>
               </div>
             </DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <User2 />
-                Profil Saya
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Bell />
-                Notifications
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={handleLogout} className="text-destructive">
               <LogOut className="text-destructive" />

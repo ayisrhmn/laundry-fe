@@ -1,3 +1,4 @@
+import { BaseApiOptions, PaginatedFilters } from "@/@types/apis.type";
 import { API_URL, ENDPOINTS } from "@/lib/apis/endpoints";
 import { headerAuth } from "@/lib/apis/headerAuth";
 import axios, {
@@ -49,7 +50,6 @@ export class BaseApi {
       limit: filters?.limit?.toString(),
       page: filters?.page?.toString(),
       search: filters?.search,
-      populate: filters?.populate,
       sort: filters?.sort,
     };
   }
@@ -136,7 +136,7 @@ export class BaseApi {
     return response.data;
   }
 
-  async patch<T, D>({
+  async patch<T, D = unknown>({
     url,
     data,
     headers,
@@ -148,7 +148,7 @@ export class BaseApi {
     useToken?: boolean;
   }): Promise<T> {
     headers = await headerAuth(headers, useToken);
-    const response = await this.axios.patch<T>(url, data, {
+    const response = await this.axios.patch<D, AxiosResponse<T>>(url, data, {
       headers,
     });
     return response.data;

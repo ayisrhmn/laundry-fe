@@ -15,9 +15,9 @@ export function AppAvatar({ name, avatar, className }: AppAvatarProps) {
     .toUpperCase();
 
   return (
-    <Avatar className={cn("h-8 w-8 rounded-lg bg-gray-200", className)}>
+    <Avatar className={cn("h-9 w-9 rounded-full bg-gray-200", className)}>
       {avatar && <AvatarImage src={avatar} alt={name} />}
-      <AvatarFallback className="rounded-lg bg-gray-200">{initials}</AvatarFallback>
+      <AvatarFallback className="rounded-full bg-gray-200">{initials}</AvatarFallback>
     </Avatar>
   );
 }

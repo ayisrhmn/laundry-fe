@@ -1,13 +1,4 @@
-import {
-  Activity,
-  Archive,
-  Building,
-  FileText,
-  LifeBuoy,
-  Package,
-  Send,
-  type LucideIcon,
-} from "lucide-react";
+import { Activity, Users2, type LucideIcon } from "lucide-react";
 
 export type NavigationMain = {
   group: string;
@@ -41,50 +32,11 @@ export const NAVIGATION_MAIN: NavigationMain[] = [
     group: "Master Data",
     menus: [
       {
-        name: "Cabang",
-        href: "/dashboard/master/branch",
-        icon: Building,
-        submenus: null,
-      },
-      {
-        name: "Produk",
-        href: "#",
-        icon: Package,
-        submenus: [
-          { name: "Kategori Produk", href: "/dashboard/master/product-type" },
-          { name: "Daftar Produk", href: "/dashboard/master/product" },
-        ],
-      },
-      {
-        name: "Stok",
-        href: "/dashboard/master/stock",
-        icon: Archive,
+        name: "User",
+        href: "/dashboard/master/users",
+        icon: Users2,
         submenus: null,
       },
     ],
-  },
-  {
-    group: "Analisis",
-    menus: [
-      {
-        name: "Laporan",
-        href: "/dashboard/analytics/report",
-        icon: FileText,
-        submenus: null,
-      },
-    ],
-  },
-];
-
-export const NAVIGATION_SECONDARY: NavigationSecondary[] = [
-  {
-    name: "Bantuan",
-    href: "#",
-    icon: LifeBuoy,
-  },
-  {
-    name: "Saran",
-    href: "#",
-    icon: Send,
   },
 ];

@@ -1,26 +1,24 @@
 "use client";
 
+import { User } from "@/@types/module/users/response";
 import { DataTable } from "@/components/base/app-datatable";
 import AppDropdownActions from "@/components/base/app-dropdown-actions";
 import { AppHeading } from "@/components/base/app-heading";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/use-toast";
-import { useBranchApi } from "@/lib/apis/branch/branch-hook";
+import { useUsersApi } from "@/lib/apis/users/users-hook";
 import { safePromise } from "@/lib/utils";
 import { formatDate, getClockTime } from "@/lib/utils/time";
-import { Plus, RefreshCw } from "lucide-react";
+import { RefreshCw } from "lucide-react";
 import { useMemo } from "react";
-import {
-  confirmDeleteBranchModal,
-  formBranchModal,
-} from "./_module/components/branch-modals.component";
+import { confirmDeleteUserModal, formUserModal } from "./_module/components/user-modals.component";
 
-export default function BranchPage() {
-  const { useGetBranches, useDeleteBranch } = useBranchApi();
-  const { fetcher, limit, page, setLimit, setPage, handleSearch } = useGetBranches();
-  const { mutateAsync: deleteBranch } = useDeleteBranch();
+export default function UsersPage() {
+  const { useGetUsers, useDeleteUser } = useUsersApi();
+  const { fetcher, limit, page, setLimit, setPage, handleSearch } = useGetUsers();
+  const { mutateAsync: deleteUser } = useDeleteUser();
 
-  const branches = useMemo(() => {
+  const users = useMemo(() => {
     return fetcher?.data?.data ?? [];
   }, [fetcher?.data?.data]);
 
@@ -31,31 +29,35 @@ export default function BranchPage() {
   return (
     <div className="space-y-6">
       <AppHeading
-        title="Cabang"
-        description="Kelola dan pantau semua cabang yang tersedia di sistem POS Anda."
+        title="User"
+        description="Kelola dan pantau semua user yang tersedia di sistem Anda."
       />
 
-      <DataTable<Branch>
+      <DataTable<User>
         columns={[
           {
-            accessorKey: "code",
-            header: "Kode",
-            cell: ({ row }) => <div className="text-sm">{row.original?.code}</div>,
-          },
-          {
-            accessorKey: "name",
+            accessorKey: "fullName",
             header: "Nama",
-            cell: ({ row }) => <div className="text-sm">{row.original?.name}</div>,
+            cell: ({ row }) => (
+              <div className="flex flex-col space-y-1">
+                <span className="text-sm font-semibold">{row.original?.fullName}</span>
+                <span className="text-xs">@{row.original?.username}</span>
+              </div>
+            ),
           },
           {
-            accessorKey: "address",
-            header: "Alamat",
-            cell: ({ row }) => <div className="text-sm">{row.original?.address}</div>,
+            accessorKey: "role",
+            header: "Role",
+            cell: ({ row }) => (
+              <div className="text-sm capitalize">{row.original?.role?.toLowerCase()}</div>
+            ),
           },
           {
-            accessorKey: "owner",
-            header: "Owner",
-            cell: ({ row }) => <div className="text-sm">{row.original?.user?.name}</div>,
+            accessorKey: "isActive",
+            header: "Status",
+            cell: ({ row }) => (
+              <div className="text-sm">{row.original?.isActive ? "Aktif" : "Tidak Aktif"}</div>
+            ),
           },
           {
             accessorKey: "createdAt",
@@ -72,17 +74,17 @@ export default function BranchPage() {
             header: "Aksi",
             cell: ({ row }) => (
               <AppDropdownActions
-                onEdit={formBranchModal(row.original, onRefresh).open}
+                onEdit={formUserModal(row.original, onRefresh).open}
                 onDelete={
-                  confirmDeleteBranchModal({
-                    requireType: row.original?.name?.trim(),
+                  confirmDeleteUserModal({
+                    requireType: row.original?.username?.trim(),
                     next: async () => {
                       await safePromise(async () => {
-                        await deleteBranch(row.original?.id)
+                        await deleteUser(row.original?.id)
                           .then(() => {
                             toast({
-                              title: "Cabang berhasil dihapus",
-                              description: "Cabang telah berhasil dihapus.",
+                              title: "User berhasil dihapus",
+                              description: `User "${row.original?.fullName}" berhasil dihapus.`,
                               variant: "success",
                             });
                           })
@@ -96,21 +98,11 @@ export default function BranchPage() {
             size: 20,
           },
         ]}
-        data={branches}
+        data={users}
         headerChildren={
-          <>
-            <Button
-              className="py-6 px-4 w-min"
-              variant="outline"
-              size="lg"
-              onClick={formBranchModal(undefined, onRefresh).open}
-            >
-              <Plus className="h-4 w-4" />
-            </Button>
-            <Button className="py-6 px-4 w-min" variant="outline" size="lg" onClick={onRefresh}>
-              <RefreshCw className="h-4 w-4" />
-            </Button>
-          </>
+          <Button className="py-6 px-4 w-min" variant="outline" size="lg" onClick={onRefresh}>
+            <RefreshCw className="h-4 w-4" />
+          </Button>
         }
         limit={limit}
         page={page}
@@ -124,7 +116,7 @@ export default function BranchPage() {
         }}
         loading={fetcher?.isFetching}
         usePagination
-        noResultText="Belum ada cabang yang ditambahkan"
+        noResultText="Belum ada user yang ditambahkan"
       />
     </div>
   );

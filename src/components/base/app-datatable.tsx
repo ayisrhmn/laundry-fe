@@ -239,7 +239,7 @@ export function DataTable<T>(props: DataTableProps<T>): ReactElement {
         <div className="py-3 px-4 border-t">
           <div className="w-full flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-0">
             <div className="text-sm text-gray-600">
-              {`${(page - 1) * limitData + 1}-${Math.min(page * limitData, totalData)} dari ${totalData} baris terpilih.`}
+              {`${(page - 1) * limitData + 1}-${Math.min(page * limitData, totalData)} dari ${totalData} data.`}
             </div>
 
             <div className="flex flex-col sm:flex-row items-center gap-4">

@@ -1,17 +1,19 @@
-import { LoginUserSchema, RegisterUserSchema } from "@/lib/apis/auth/auth-schema";
+import { BaseApiResult } from "@/@types/apis.type";
+import { UserAuthorizedResult } from "@/@types/module/auth/response";
 import { BaseApi } from "@/lib/apis/base";
+import { LoginSchema, RegisterSchema } from "./auth-schema";
 
 export class AuthApi extends BaseApi {
-  login(email: string, password: string, deviceInfo: DeviceInfo) {
-    return this.post<BaseApiResult<UserAuthorizedResult>, LoginUserSchema>({
-      url: this.endpoints.auth.signin,
-      data: { email, password, deviceInfo },
+  login(username: string, password: string) {
+    return this.post<BaseApiResult<UserAuthorizedResult>, LoginSchema>({
+      url: this.endpoints.auth.login,
+      data: { username, password },
     });
   }
 
-  registerUser(data: RegisterUserSchema) {
-    return this.post<BaseApiResult<UserAuthorizedResult>, RegisterUserSchema>({
-      url: this.endpoints.auth.signup,
+  register(data: RegisterSchema) {
+    return this.post<BaseApiResult<UserAuthorizedResult>, RegisterSchema>({
+      url: this.endpoints.auth.register,
       data,
     });
   }
