@@ -4,29 +4,27 @@ import { FlexibleSelect } from "@/components/base/app-select";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
-import { UsersFilterValues } from "./user-modals.component";
+import { ServicesFilterValues } from "./service-modals.component";
 
-export function UserFilterForm({
+export function ServiceFilterForm({
   values,
   onApply,
   onClose,
 }: {
-  values: UsersFilterValues;
-  onApply: (values: UsersFilterValues) => void;
+  values: ServicesFilterValues;
+  onApply: (values: ServicesFilterValues) => void;
   onClose: () => void;
 }) {
   const [sort, setSort] = useState<"newest" | "oldest">(values.sort);
-  const [role, setRole] = useState<"ADMIN" | "OPERATOR" | undefined>(values.role);
 
   const handleApply = () => {
-    onApply({ sort, role });
+    onApply({ sort });
     onClose();
   };
 
   const handleReset = () => {
     setSort("newest");
-    setRole(undefined);
-    onApply({ sort: "newest", role: undefined });
+    onApply({ sort: "newest" });
     onClose();
   };
 
@@ -43,20 +41,6 @@ export function UserFilterForm({
             ]}
             value={sort}
             onValueChange={(value) => setSort(value as "newest" | "oldest")}
-            className="w-full"
-          />
-        </div>
-
-        <div className="w-full space-y-2">
-          <Label>Role</Label>
-          <FlexibleSelect
-            placeholder="Semua role"
-            options={[
-              { value: "ADMIN", label: "Admin" },
-              { value: "OPERATOR", label: "Operator" },
-            ]}
-            value={role ?? ""}
-            onValueChange={(value) => setRole(value as "ADMIN" | "OPERATOR")}
             className="w-full"
           />
         </div>

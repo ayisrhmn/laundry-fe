@@ -4,7 +4,7 @@ import { FlexibleSelect } from "@/components/base/app-select";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
-import { CustomersFilterValues } from "./customer-filter-modal.component";
+import { CustomersFilterValues } from "./customer-modals.component";
 
 export function CustomerFilterForm({
   values,

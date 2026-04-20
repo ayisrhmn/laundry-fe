@@ -12,10 +12,11 @@ import { formatDate, getClockTime } from "@/lib/utils/time";
 import { Filter, Plus, RefreshCw } from "lucide-react";
 import { useMemo, useState } from "react";
 import {
+  confirmDeleteCustomerModal,
   CustomersFilterValues,
   filterCustomersModal,
-} from "./_module/customer-filter-modal.component";
-import { confirmDeleteCustomerModal, formCustomerModal } from "./_module/customer-modals.component";
+  formCustomerModal,
+} from "./_module/customer-modals.component";
 
 export default function CustomersPage() {
   const { useGetCustomers, useDeleteCustomer } = useCustomersApi();

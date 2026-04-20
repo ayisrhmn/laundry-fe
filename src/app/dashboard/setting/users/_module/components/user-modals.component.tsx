@@ -1,7 +1,13 @@
 import { User } from "@/@types/module/users/response";
 import { ConfirmationFooter } from "@/components/base/app-modals";
 import { modals } from "@/hooks/use-modals";
+import { UserFilterForm } from "./user-filter-form.component";
 import UserForm from "./user-form.component";
+
+export type UsersFilterValues = {
+  sort: "newest" | "oldest";
+  role?: "ADMIN" | "OPERATOR";
+};
 
 export const formUserModal = (item?: User, onRefresh?: () => void) => {
   return modals({
@@ -39,4 +45,15 @@ export const confirmDeleteUserModal = ({
         />
       );
     },
+  });
+
+export const filterUsersModal = (
+  values: UsersFilterValues,
+  onApply: (values: UsersFilterValues) => void,
+) =>
+  modals({
+    id: "filter-users",
+    title: "Filter",
+    description: "Filter data user sesuai kebutuhan kamu.",
+    content: ({ close }) => <UserFilterForm values={values} onApply={onApply} onClose={close} />,
   });

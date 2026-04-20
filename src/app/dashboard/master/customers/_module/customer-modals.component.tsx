@@ -1,7 +1,12 @@
 import { Customer } from "@/@types/module/customers/response";
 import { ConfirmationFooter } from "@/components/base/app-modals";
 import { modals } from "@/hooks/use-modals";
+import { CustomerFilterForm } from "./customer-filter-form.component";
 import CustomerForm from "./customer-form.component";
+
+export type CustomersFilterValues = {
+  sort: "newest" | "oldest";
+};
 
 export const formCustomerModal = (item?: Customer, onRefresh?: () => void) => {
   return modals({
@@ -39,4 +44,17 @@ export const confirmDeleteCustomerModal = ({
         />
       );
     },
+  });
+
+export const filterCustomersModal = (
+  values: CustomersFilterValues,
+  onApply: (values: CustomersFilterValues) => void,
+) =>
+  modals({
+    id: "filter-customers",
+    title: "Filter",
+    description: "Filter data customer sesuai kebutuhan kamu.",
+    content: ({ close }) => (
+      <CustomerFilterForm values={values} onApply={onApply} onClose={close} />
+    ),
   });

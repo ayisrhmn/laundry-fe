@@ -57,7 +57,7 @@ export default function UserForm({ item, onRefresh, onClose }: UserFormProps) {
       payload.password = data.password;
     }
 
-    const [createdBranch] = await safePromise(
+    const [updatedUser] = await safePromise(
       async () => {
         if (item?.id) {
           return await updateUser(payload as UserRequest & { id: string });
@@ -72,7 +72,7 @@ export default function UserForm({ item, onRefresh, onClose }: UserFormProps) {
         onClose();
       },
     );
-    if (createdBranch) {
+    if (updatedUser) {
       toast({
         title: "User berhasil diperbarui",
         description: "Data user telah berhasil diperbarui.",
