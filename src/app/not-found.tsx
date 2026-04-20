@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { ArrowLeft, Home } from "lucide-react";
+import { Home } from "lucide-react";
 import Link from "next/link";
 
 export default function NotFound() {
@@ -33,11 +33,6 @@ export default function NotFound() {
                   <Home className="w-4 h-4 mr-2" />
                   Kembali ke Dashboard
                 </Link>
-              </Button>
-
-              <Button type="button" variant="outline" onClick={() => window.history.back()}>
-                <ArrowLeft className="w-4 h-4 mr-2" />
-                Halaman Sebelumnya
               </Button>
             </div>
           </div>

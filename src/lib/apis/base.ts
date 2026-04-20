@@ -8,6 +8,7 @@ import axios, {
   AxiosResponse,
   RawAxiosRequestHeaders,
 } from "axios";
+import { signOut } from "next-auth/react";
 import { stringify } from "qs";
 
 export class BaseApi {
@@ -25,6 +26,14 @@ export class BaseApi {
       },
       async (error) => {
         if (error instanceof AxiosError) {
+          // handle unauthorized error globally
+          if (error.response?.status === 401) {
+            const msg = error?.response?.data?.message;
+            if (msg && msg === "Unauthorized") {
+              await signOut({ callbackUrl: "/auth/login", redirect: true });
+            }
+          }
+
           error.message =
             error?.response?.data?.error?.message ||
             "An error occured while intract with the server";

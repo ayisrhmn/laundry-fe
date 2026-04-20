@@ -49,6 +49,7 @@ export type DataTableProps<T, V = unknown> = {
   noResultText?: string | ReactNode;
   usePagination?: boolean;
   className?: string;
+  searchPlaceholder?: string;
 };
 
 export function DataTable<T>(props: DataTableProps<T>): ReactElement {
@@ -65,6 +66,7 @@ export function DataTable<T>(props: DataTableProps<T>): ReactElement {
     headerChildren = null,
     loading = false,
     onRowClicked,
+    searchPlaceholder = "Cari ...",
   } = props;
 
   const [search, setSearch] = useState("");
@@ -133,6 +135,7 @@ export function DataTable<T>(props: DataTableProps<T>): ReactElement {
               onClear={() => setSearch("")}
               inputClassName="h-12"
               showClearIcon={search !== ""}
+              placeholder={searchPlaceholder}
             />
             <Button
               className="py-6 px-4 w-min"

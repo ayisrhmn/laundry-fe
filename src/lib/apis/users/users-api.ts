@@ -23,14 +23,10 @@ export class UsersApi extends BaseApi {
   }
 
   updateUser(data: UserRequest & { id: string }) {
+    const { id, ...rest } = data;
     return this.patch<BaseApiResult<User>>({
-      url: `${this.endpoints.users}/${data?.id}`,
-      data: {
-        fullName: data.fullName,
-        password: data.password,
-        role: data.role,
-        isActive: data.isActive,
-      },
+      url: `${this.endpoints.users}/${id}`,
+      data: rest,
     });
   }
 

@@ -1,34 +1,33 @@
 "use client";
 
-import { User } from "@/@types/module/users/response";
+import { Customer } from "@/@types/module/customers/response";
 import { DataTable } from "@/components/base/app-datatable";
 import AppDropdownActions from "@/components/base/app-dropdown-actions";
 import { AppHeading } from "@/components/base/app-heading";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/use-toast";
-import { useUsersApi } from "@/lib/apis/users/users-hook";
+import { useCustomersApi } from "@/lib/apis/customers/customers-hook";
 import { safePromise } from "@/lib/utils";
 import { formatDate, getClockTime } from "@/lib/utils/time";
-import { Filter, RefreshCw } from "lucide-react";
+import { Filter, Plus, RefreshCw } from "lucide-react";
 import { useMemo, useState } from "react";
 import {
-  filterUsersModal,
-  UsersFilterValues,
-} from "./_module/components/user-filter-modal.component";
-import { confirmDeleteUserModal, formUserModal } from "./_module/components/user-modals.component";
+  CustomersFilterValues,
+  filterCustomersModal,
+} from "./_module/customer-filter-modal.component";
+import { confirmDeleteCustomerModal, formCustomerModal } from "./_module/customer-modals.component";
 
-export default function UsersPage() {
-  const { useGetUsers, useDeleteUser } = useUsersApi();
-  const [filters, setFilters] = useState<UsersFilterValues>({ sort: "newest" });
-  const { fetcher, limit, page, setLimit, setPage, handleSearch } = useGetUsers({
+export default function CustomersPage() {
+  const { useGetCustomers, useDeleteCustomer } = useCustomersApi();
+  const [filters, setFilters] = useState<CustomersFilterValues>({ sort: "newest" });
+  const { fetcher, limit, page, setLimit, setPage, handleSearch } = useGetCustomers({
     sort: filters.sort,
-    role: filters.role,
   });
-  const { mutateAsync: deleteUser } = useDeleteUser();
+  const { mutateAsync: deleteCustomer } = useDeleteCustomer();
 
-  const hasActiveFilters = filters.sort !== "newest" || filters.role;
+  const hasActiveFilters = filters.sort !== "newest";
 
-  const users = useMemo(() => {
+  const customers = useMemo(() => {
     return fetcher?.data?.data ?? [];
   }, [fetcher?.data?.data]);
 
@@ -39,11 +38,11 @@ export default function UsersPage() {
   return (
     <div className="space-y-6">
       <AppHeading
-        title="User"
-        description="Kelola dan pantau semua user yang tersedia di sistem Anda."
+        title="Customer"
+        description="Kelola dan pantau semua customer yang tersedia di sistem Anda."
       />
 
-      <DataTable<User>
+      <DataTable<Customer>
         columns={[
           {
             accessorKey: "fullName",
@@ -51,22 +50,17 @@ export default function UsersPage() {
             cell: ({ row }) => (
               <div className="flex flex-col space-y-1">
                 <span className="text-sm font-semibold">{row.original?.fullName}</span>
-                <span className="text-xs">@{row.original?.username}</span>
+                <span className="text-xs">{row.original?.phone}</span>
               </div>
             ),
           },
           {
-            accessorKey: "role",
-            header: "Role",
+            accessorKey: "address",
+            header: "Alamat",
             cell: ({ row }) => (
-              <div className="text-sm capitalize">{row.original?.role?.toLowerCase()}</div>
-            ),
-          },
-          {
-            accessorKey: "isActive",
-            header: "Status",
-            cell: ({ row }) => (
-              <div className="text-sm">{row.original?.isActive ? "Aktif" : "Tidak Aktif"}</div>
+              <div className="flex flex-col space-y-1">
+                <span className="text-sm">{row.original?.address}</span>
+              </div>
             ),
           },
           {
@@ -84,17 +78,17 @@ export default function UsersPage() {
             header: "Aksi",
             cell: ({ row }) => (
               <AppDropdownActions
-                onEdit={formUserModal(row.original, onRefresh).open}
+                onEdit={formCustomerModal(row.original, onRefresh).open}
                 onDelete={
-                  confirmDeleteUserModal({
-                    requireType: row.original?.username?.trim(),
+                  confirmDeleteCustomerModal({
+                    requireType: row.original?.fullName?.trim(),
                     next: async () => {
                       await safePromise(async () => {
-                        await deleteUser(row.original?.id)
+                        await deleteCustomer(row.original?.id)
                           .then(() => {
                             toast({
-                              title: "User berhasil dihapus",
-                              description: `User "${row.original?.fullName}" berhasil dihapus.`,
+                              title: "Customer berhasil dihapus",
+                              description: `Customer "${row.original?.fullName}" berhasil dihapus.`,
                               variant: "success",
                             });
                           })
@@ -108,7 +102,7 @@ export default function UsersPage() {
             size: 20,
           },
         ]}
-        data={users}
+        data={customers}
         headerChildren={
           <>
             <div className="relative">
@@ -116,7 +110,7 @@ export default function UsersPage() {
                 className="py-6 px-4 w-min"
                 variant="outline"
                 size="lg"
-                onClick={filterUsersModal(filters, setFilters).open}
+                onClick={filterCustomersModal(filters, setFilters).open}
               >
                 <Filter className="h-4 w-4" />
                 {hasActiveFilters && (
@@ -127,11 +121,20 @@ export default function UsersPage() {
             <Button className="py-6 px-4 w-min" variant="outline" size="lg" onClick={onRefresh}>
               <RefreshCw className="h-4 w-4" />
             </Button>
+            <Button
+              className="py-6 px-4 w-min"
+              variant="outline"
+              size="lg"
+              onClick={formCustomerModal(undefined, onRefresh).open}
+            >
+              <Plus className="h-4 w-4" />
+            </Button>
           </>
         }
         limit={limit}
         page={page}
         totalData={fetcher?.data?.pagination?.total || 0}
+        searchPlaceholder="Cari berdasarkan Nama atau No. HP ..."
         onSearch={handleSearch}
         onLimitChanged={(limit) => {
           setLimit(limit);
@@ -141,7 +144,7 @@ export default function UsersPage() {
         }}
         loading={fetcher?.isFetching}
         usePagination
-        noResultText="Belum ada user yang ditambahkan"
+        noResultText="Belum ada customer yang ditambahkan"
       />
     </div>
   );
