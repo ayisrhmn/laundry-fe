@@ -56,7 +56,7 @@ function AuthAdminPage() {
       description: "Anda berhasil masuk ke Laundry Admin.",
       variant: "success",
     });
-    router.push("/dashboard");
+    router.push("/");
     setLoading(false);
   };
 

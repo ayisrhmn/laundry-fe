@@ -37,7 +37,7 @@ export function AppBreadcrumb() {
       }
     }
 
-    return [{ name: "Dashboard", href: "/dashboard" }, ...items];
+    return [{ name: "Dashboard", href: "/" }, ...items];
   };
 
   const breadcrumbs = getBreadcrumbItems();
@@ -45,7 +45,7 @@ export function AppBreadcrumb() {
   return (
     <Breadcrumb>
       <BreadcrumbList>
-        {pathname !== "/dashboard" &&
+        {pathname !== "/" &&
           breadcrumbs.map((item, index) => {
             const isLast = index === breadcrumbs.length - 1;
             return (

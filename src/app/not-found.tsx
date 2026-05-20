@@ -29,7 +29,7 @@ export default function NotFound() {
             {/* Action Buttons */}
             <div className="flex flex-col gap-3 pt-4">
               <Button asChild>
-                <Link href="/dashboard">
+                <Link href="/">
                   <Home className="w-4 h-4 mr-2" />
                   Kembali ke Dashboard
                 </Link>

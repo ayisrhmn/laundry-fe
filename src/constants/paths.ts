@@ -34,14 +34,14 @@ export type NavigationSecondary = {
 export const NAVIGATION_MAIN: NavigationMain[] = [
   {
     group: "Ikhtisar",
-    menus: [{ name: "Dashboard", href: "/dashboard", icon: Activity, submenus: null }],
+    menus: [{ name: "Dashboard", href: "/", icon: Activity, submenus: null }],
   },
   {
     group: "Transaksi",
     menus: [
       {
         name: "Order",
-        href: "/dashboard/transaction/orders",
+        href: "/transaction/orders",
         icon: ReceiptText,
         submenus: null,
       },
@@ -52,19 +52,19 @@ export const NAVIGATION_MAIN: NavigationMain[] = [
     menus: [
       {
         name: "Customer",
-        href: "/dashboard/master/customers",
+        href: "/master/customers",
         icon: Users2,
         submenus: null,
       },
       {
         name: "Layanan",
-        href: "/dashboard/master/services",
+        href: "/master/services",
         icon: WashingMachine,
         submenus: null,
       },
       {
         name: "Aturan Diskon",
-        href: "/dashboard/master/discount-rules",
+        href: "/master/discount-rules",
         icon: Percent,
         submenus: null,
       },
@@ -75,7 +75,7 @@ export const NAVIGATION_MAIN: NavigationMain[] = [
     menus: [
       {
         name: "User",
-        href: "/dashboard/setting/users",
+        href: "/setting/users",
         icon: UserCog2,
         submenus: null,
       },

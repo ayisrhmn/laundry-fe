@@ -33,7 +33,7 @@ export function NavUser({
 
   const handleLogout = async () => {
     try {
-      await signOut({ callbackUrl: "/auth/login", redirect: true });
+      await signOut({ callbackUrl: "/login", redirect: true });
       localStorage.clear();
     } catch (error) {
       toast({

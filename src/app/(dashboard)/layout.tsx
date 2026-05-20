@@ -7,7 +7,7 @@ export default async function AppDashboardLayout({ children }: { children: React
   const session = await getServerSession(nextAuthConfig);
 
   if (!session) {
-    redirect("/auth/login");
+    redirect("/login");
   }
 
   return <DashboardLayout>{children}</DashboardLayout>;

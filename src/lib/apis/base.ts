@@ -30,7 +30,7 @@ export class BaseApi {
           if (error.response?.status === 401) {
             const msg = error?.response?.data?.message;
             if (msg && msg === "Unauthorized") {
-              await signOut({ callbackUrl: "/auth/login", redirect: true });
+              await signOut({ callbackUrl: "/login", redirect: true });
             }
           }
 
