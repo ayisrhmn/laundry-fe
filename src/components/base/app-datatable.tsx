@@ -150,9 +150,9 @@ export function DataTable<T>(props: DataTableProps<T>): ReactElement {
         {headerChildren}
       </div>
       <div className="m-4 border rounded-lg overflow-hidden">
-        <div style={{ direction: table.options.columnResizeDirection }} className="w-full">
+        <div style={{ direction: table.options.columnResizeDirection }} className="w-full overflow-x-auto">
           <Table
-            className="w-full table-auto"
+            className="w-full min-w-max table-auto"
             style={{ direction: table.options.columnResizeDirection }}
           >
             <TableHeader className="bg-gray-50">
