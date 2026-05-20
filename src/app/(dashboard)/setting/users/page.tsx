@@ -40,8 +40,8 @@ export default function UsersPage() {
   return (
     <div className="space-y-6">
       <AppHeading
-        title="User"
-        description="Kelola dan pantau semua user yang tersedia di sistem Anda."
+        title="Pengguna"
+        description="Kelola dan pantau semua pengguna yang tersedia di sistem Anda."
       />
 
       <DataTable<User>

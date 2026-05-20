@@ -39,8 +39,8 @@ export default function CustomersPage() {
   return (
     <div className="space-y-6">
       <AppHeading
-        title="Customer"
-        description="Kelola dan pantau semua customer yang tersedia di sistem Anda."
+        title="Pelanggan"
+        description="Kelola dan pantau semua pelanggan yang tersedia di sistem Anda."
       />
 
       <DataTable<Customer>

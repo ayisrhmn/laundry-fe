@@ -54,10 +54,7 @@ const recentTransactions: RecentTransaction[] = [
 export default function AppDashboardPage() {
   return (
     <div className="space-y-6">
-      <AppHeading
-        title="Dashboard"
-        description="Pantau performa toko dan transaksi POS secara real-time."
-      />
+      <AppHeading title="Beranda" description="Pantau performa laundry Anda secara real-time." />
 
       {/* Cards */}
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
