@@ -10,5 +10,9 @@ export default async function AppDashboardLayout({ children }: { children: React
     redirect("/login");
   }
 
+  if (session.user.role === "OPERATOR") {
+    redirect("/cashier");
+  }
+
   return <DashboardLayout>{children}</DashboardLayout>;
 }
