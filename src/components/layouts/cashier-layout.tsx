@@ -1,8 +1,14 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { AppAvatar } from "@/components/base/app-avatar";
 import { toast } from "@/components/ui/use-toast";
-import { LayoutDashboard, LogOut } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { LayoutDashboard, LogOut, Sparkles } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 
@@ -29,25 +35,46 @@ export default function CashierLayout({ children }: CashierLayoutProps) {
 
   return (
     <div className="relative min-h-screen bg-background text-foreground">
-      {/* Top bar */}
-      <header className="flex h-14 items-center justify-between border-b border-border bg-card px-6 shadow-sm">
-        <span className="text-sm font-semibold tracking-widest uppercase text-amber-500">
-          Nami Laundry
-        </span>
-
-        {/* User info + logout */}
-        <div className="flex items-center gap-4">
-          <div className="text-right">
-            <p className="text-sm font-medium text-foreground leading-none">
-              {session?.user?.fullName}
-            </p>
-            <p className="text-xs text-muted-foreground mt-0.5">{session?.user?.username}</p>
-          </div>
-          <Button variant="destructive" size="sm" onClick={handleLogout}>
-            <LogOut />
-            Keluar
-          </Button>
+      {/* Improved Sticky Top bar with backdrop blur */}
+      <header className="sticky top-0 z-50 flex h-14 items-center justify-between border-b border-border bg-card/85 backdrop-blur-md px-4 sm:px-6 shadow-xs">
+        <div className="flex items-center gap-2">
+          <Sparkles className="h-5 w-5 text-amber-500 animate-pulse shrink-0" />
+          <span className="text-sm font-extrabold tracking-widest uppercase bg-linear-to-r from-amber-500 to-yellow-600 bg-clip-text text-transparent">
+            Nami Laundry
+          </span>
         </div>
+
+        {/* User info + logout dropdown */}
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <button className="flex items-center gap-2.5 p-1 rounded-lg hover:bg-muted/60 transition-colors focus:outline-none cursor-pointer">
+              <div className="hidden min-[400px]:flex flex-col text-right">
+                <p className="text-xs font-bold text-foreground leading-none">
+                  {session?.user?.fullName}
+                </p>
+                <p className="text-[10px] text-muted-foreground mt-0.5">
+                  {session?.user?.username}
+                </p>
+              </div>
+              {session?.user?.fullName && (
+                <AppAvatar
+                  name={session.user.fullName}
+                  className="h-8 w-8 ring-2 ring-amber-500/20 shrink-0"
+                />
+              )}
+            </button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="w-40 mt-1">
+            <DropdownMenuItem
+              onClick={handleLogout}
+              variant="destructive"
+              className="flex items-center gap-2 cursor-pointer"
+            >
+              <LogOut className="h-4 w-4" />
+              <span>Keluar</span>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </header>
 
       {/* Page content */}

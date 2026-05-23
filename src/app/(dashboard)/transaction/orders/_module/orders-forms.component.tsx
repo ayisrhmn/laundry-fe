@@ -7,7 +7,7 @@ import { toast } from "@/components/ui/use-toast";
 import { useOrdersApi } from "@/lib/apis/orders/orders-hook";
 import { safePromise } from "@/lib/utils";
 import { formatDate } from "@/lib/utils/time";
-import { ArrowRight, CheckCircle2, Circle, Lock } from "lucide-react";
+import { ArrowRight, CheckCircle2, Circle, Lock, Printer, MessageCircle } from "lucide-react";
 import { useState } from "react";
 
 // --- EDIT ORDER STATUSES FORM ---
@@ -30,12 +30,8 @@ export function EditOrderStatusesForm({
   const isPaymentLocked = item.paymentStatus === "PAID";
 
   const handleOrderDone = () => {
-    if (isOrderLocked) return;
+    if (isOrderLocked || paymentStatus === "UNPAID") return;
     setOrderStatus("DONE");
-    // Auto-mark payment as PAID if before it was UNPAID
-    if (paymentStatus === "UNPAID") {
-      setPaymentStatus("PAID");
-    }
   };
 
   const handlePaymentPaid = () => {
@@ -100,20 +96,20 @@ export function EditOrderStatusesForm({
           {/* Step: Sudah Diambil */}
           <button
             type="button"
-            disabled={isOrderLocked}
+            disabled={isOrderLocked || paymentStatus === "UNPAID"}
             onClick={handleOrderDone}
             className={`flex items-center gap-2 flex-1 rounded-lg border px-3 py-2.5 transition-all ${
               orderStatus === "DONE"
                 ? "border-blue-400 bg-blue-50 text-blue-700 cursor-default"
-                : isOrderLocked
-                  ? "border-muted bg-muted/40 text-muted-foreground cursor-not-allowed"
+                : isOrderLocked || paymentStatus === "UNPAID"
+                  ? "border-muted bg-muted/40 text-muted-foreground cursor-not-allowed opacity-50"
                   : "border-dashed border-blue-300 bg-blue-50/40 text-blue-600 hover:bg-blue-50 hover:border-blue-400 cursor-pointer"
             }`}
           >
             {orderStatus === "DONE" ? (
               <CheckCircle2 className="h-4 w-4 shrink-0 text-blue-500" />
-            ) : isOrderLocked ? (
-              <Lock className="h-4 w-4 shrink-0" />
+            ) : isOrderLocked || paymentStatus === "UNPAID" ? (
+              <Lock className="h-4 w-4 shrink-0 text-muted-foreground/60" />
             ) : (
               <Circle className="h-4 w-4 shrink-0" />
             )}
@@ -171,11 +167,10 @@ export function EditOrderStatusesForm({
         </div>
       </div>
 
-      {/* Info auto-pay */}
-      {orderStatus === "PENDING" && paymentStatus === "UNPAID" && (
-        <p className="text-xs text-muted-foreground bg-muted/50 rounded-md px-3 py-2">
-          💡 Menyelesaikan order akan otomatis menandai pembayaran sebagai{" "}
-          <strong>Sudah Bayar</strong>.
+      {/* Info warning / pay first */}
+      {paymentStatus === "UNPAID" && (
+        <p className="text-xs text-red-600 bg-red-50 border border-red-200/50 rounded-md px-3 py-2">
+          ⚠️ Pesanan belum lunas. Status harus diubah menjadi <strong>Sudah Bayar</strong> terlebih dahulu sebelum pesanan dapat ditandai sebagai <strong>Sudah Diambil</strong>.
         </p>
       )}
 
@@ -268,8 +263,38 @@ export function OrderDetailView({ item, onClose }: { item: Order; onClose: () =>
         </div>
       </div>
 
-      <div className="flex flex-row items-center justify-end space-x-2 mt-6!">
-        <Button onClick={onClose} type="button">
+      <div className="grid grid-cols-2 gap-2 mt-6 border-t pt-4">
+        <Button
+          variant="outline"
+          className="flex items-center justify-center gap-1.5 text-xs font-bold border-amber-300 text-amber-600 hover:bg-amber-50"
+          type="button"
+          onClick={() => {
+            // TODO: Cetak Receipt
+            toast({
+              title: "Cetak Receipt",
+              description: "Fitur cetak receipt sedang dalam pengembangan (TODO).",
+            });
+          }}
+        >
+          <Printer className="h-4 w-4" />
+          Cetak Struk
+        </Button>
+        <Button
+          variant="outline"
+          className="flex items-center justify-center gap-1.5 text-xs font-bold border-green-300 text-green-600 hover:bg-green-50"
+          type="button"
+          onClick={() => {
+            // TODO: Kirim Receipt ke WA
+            toast({
+              title: "Kirim WA",
+              description: "Fitur kirim struk ke WhatsApp sedang dalam pengembangan (TODO).",
+            });
+          }}
+        >
+          <MessageCircle className="h-4 w-4" />
+          Kirim WA
+        </Button>
+        <Button onClick={onClose} type="button" className="col-span-2 mt-1 font-bold">
           Tutup
         </Button>
       </div>

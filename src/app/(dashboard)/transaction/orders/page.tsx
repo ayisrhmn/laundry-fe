@@ -131,9 +131,12 @@ export default function OrdersPage() {
                     <DropdownMenuItem
                       className="flex cursor-pointer flex-row items-center"
                       onClick={editOrderStatusesModal(row.original, onRefresh).open}
+                      disabled={row.original?.orderStatus === "DONE"}
                     >
                       <Pencil className="h-4 w-4 mr-3" />
-                      <span className="text-sm">Ubah Status</span>
+                      <span className="text-sm">
+                        Ubah Status {row.original?.orderStatus === "DONE" && "(Terkunci)"}
+                      </span>
                     </DropdownMenuItem>
                   </>
                 }

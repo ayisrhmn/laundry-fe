@@ -5,7 +5,7 @@ import {
 } from "@/@types/module/orders/request";
 import usePagination from "@/hooks/use-pagination";
 import { ordersApi } from "@/lib/apis";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useInfiniteQuery } from "@tanstack/react-query";
 
 export const ordersApiQueryKeys = {
   GET_ORDERS: "get-orders",
@@ -168,9 +168,48 @@ export function useOrdersApi() {
     return mutation;
   };
 
+  const useGetInfiniteOrders = (filters?: Partial<OrdersFilters>) => {
+    const limit = filters?.limit ?? 10;
+
+    return useInfiniteQuery({
+      queryKey: [
+        ordersApiQueryKeys.GET_ORDERS,
+        "infinite",
+        {
+          limit,
+          search: filters?.search,
+          sort: filters?.sort,
+          customerId: filters?.customerId,
+          orderStatus: filters?.orderStatus,
+          paymentStatus: filters?.paymentStatus,
+          dateFrom: filters?.dateFrom,
+          dateTo: filters?.dateTo,
+          discountType: filters?.discountType,
+          hasDiscount: filters?.hasDiscount,
+          minAmount: filters?.minAmount,
+          maxAmount: filters?.maxAmount,
+        },
+      ],
+      queryFn: async ({ pageParam }) => {
+        return await ordersApi.getOrders({
+          ...filters,
+          limit,
+          page: pageParam as number,
+        });
+      },
+      initialPageParam: 1,
+      getNextPageParam: (lastPage) => {
+        const { page, totalPages } = lastPage.pagination;
+        return page < totalPages ? page + 1 : undefined;
+      },
+      staleTime: 0,
+    });
+  };
+
   return {
     useGetOrders,
     useGetArchivedOrders,
+    useGetInfiniteOrders,
     useGetOrder,
     useCreateOrder,
     useUpdateOrder,
