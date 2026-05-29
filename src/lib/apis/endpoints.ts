@@ -13,4 +13,5 @@ export const ENDPOINTS = {
   services: "/services",
   orders: "/orders",
   discountRules: "/discount-rules",
+  dashboard: "/dashboard",
 };
