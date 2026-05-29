@@ -12,7 +12,7 @@ import { safePromise } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { formatPhoneInput } from "../utils/phone";
+import { formatPhoneInput } from "../../utils/phone";
 
 export interface CustomerFormProps {
   item?: Customer;

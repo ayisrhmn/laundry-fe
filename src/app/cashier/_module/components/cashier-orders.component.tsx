@@ -4,7 +4,7 @@ import { Order } from "@/@types/module/orders/response";
 import {
   editOrderStatusesModal,
   viewOrderModal,
-} from "@/app/(dashboard)/transaction/orders/_module/orders-modals.component";
+} from "@/app/(dashboard)/transaction/orders/_module/components/orders-modals.component";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
@@ -235,7 +235,7 @@ export function CashierOrders() {
             </div>
             <div className="space-y-1">
               <p className="font-semibold text-sm">Tidak ada transaksi</p>
-              <p className="text-xs text-muted-foreground max-w-[240px]">
+              <p className="text-xs text-muted-foreground max-w-60">
                 Belum ada pesanan yang sesuai dengan filter pencarian Anda.
               </p>
             </div>

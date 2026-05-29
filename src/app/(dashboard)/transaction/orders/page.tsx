@@ -12,12 +12,12 @@ import { safePromise } from "@/lib/utils";
 import { formatDate, getClockTime } from "@/lib/utils/time";
 import { Eye, Pencil } from "lucide-react";
 import { useMemo, useState } from "react";
-import { OrdersFilterBar } from "./_module/orders-filter-bar.component";
+import { OrdersFilterBar } from "./_module/components/orders-filter-bar.component";
 import {
   confirmDeleteOrderModal,
   editOrderStatusesModal,
   viewOrderModal,
-} from "./_module/orders-modals.component";
+} from "./_module/components/orders-modals.component";
 
 export default function OrdersPage() {
   const { useGetOrders, useDeleteOrder } = useOrdersApi();

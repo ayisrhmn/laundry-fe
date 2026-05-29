@@ -16,7 +16,7 @@ import {
   CustomersFilterValues,
   filterCustomersModal,
   formCustomerModal,
-} from "./_module/customer-modals.component";
+} from "./_module/components/customer-modals.component";
 
 export default function CustomersPage() {
   const { useGetCustomers, useDeleteCustomer } = useCustomersApi();

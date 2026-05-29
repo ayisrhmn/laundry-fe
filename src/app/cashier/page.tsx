@@ -1,4 +1,4 @@
-import CashierView from "./_module/cashier-view.component";
+import CashierView from "./_module/components/cashier-view.component";
 
 export default function CashierPage() {
   return <CashierView />;

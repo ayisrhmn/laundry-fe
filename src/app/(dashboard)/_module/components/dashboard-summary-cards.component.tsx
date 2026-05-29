@@ -51,7 +51,7 @@ type DashboardSummaryCardsProps = {
 export function DashboardSummaryCards({ data, isLoading }: DashboardSummaryCardsProps) {
   if (isLoading) {
     return (
-      <div className="grid gap-4 grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
+      <div className="grid gap-4 grid-cols-2 md:grid-cols-3">
         {Array.from({ length: 6 }).map((_, i) => (
           <KpiCardSkeleton key={i} />
         ))}
@@ -99,7 +99,7 @@ export function DashboardSummaryCards({ data, isLoading }: DashboardSummaryCards
   ];
 
   return (
-    <div className="grid gap-4 grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
+    <div className="grid gap-4 grid-cols-2 md:grid-cols-3">
       {cards.map((card) => (
         <KpiCard key={card.title} {...card} />
       ))}

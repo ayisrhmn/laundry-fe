@@ -14,10 +14,10 @@ import { Filter, Plus, RefreshCw } from "lucide-react";
 import { useMemo, useState } from "react";
 import {
   confirmDeleteDiscountRuleModal,
+  DiscountRulesFilterValues,
   filterDiscountRulesModal,
   formDiscountRuleModal,
-  DiscountRulesFilterValues,
-} from "./_module/discount-rule-modals.component";
+} from "./_module/components/discount-rule-modals.component";
 
 export default function DiscountRulesPage() {
   const { useGetDiscountRules, useDeleteDiscountRule } = useDiscountRulesApi();
@@ -85,9 +85,7 @@ export default function DiscountRulesPage() {
             header: "Min. Transaksi",
             cell: ({ row }) => (
               <div className="flex flex-col space-y-1">
-                <span className="text-sm">
-                  {row.original?.minTransaction} Transaksi
-                </span>
+                <span className="text-sm">{row.original?.minTransaction} Transaksi</span>
               </div>
             ),
           },

@@ -4,7 +4,18 @@ import { TopServiceItem } from "@/@types/module/dashboard/response";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { formatMoney } from "@/lib/utils/money";
-import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import {
+  Bar,
+  BarChart,
+  CartesianGrid,
+  Cell,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from "recharts";
+
+const BAR_COLORS = ["#6366f1", "#8b5cf6", "#06b6d4", "#10b981", "#f59e0b"];
 
 type CustomTooltipProps = {
   active?: boolean;
@@ -55,7 +66,7 @@ export function DashboardTopServices({ data, isLoading }: DashboardTopServicesPr
               layout="vertical"
               margin={{ top: 0, right: 20, left: 0, bottom: 0 }}
             >
-              <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="hsl(var(--border))" />
+              <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="var(--border)" />
               <XAxis
                 type="number"
                 tickFormatter={formatShortMoney}
@@ -70,8 +81,12 @@ export function DashboardTopServices({ data, isLoading }: DashboardTopServicesPr
                 tick={{ fontSize: 12 }}
                 tickLine={false}
               />
-              <Tooltip content={<CustomTooltip />} cursor={{ fill: "hsl(var(--muted))" }} />
-              <Bar dataKey="totalRevenue" fill="hsl(var(--primary))" radius={[0, 4, 4, 0]} />
+              <Tooltip content={<CustomTooltip />} cursor={{ fill: "var(--muted)" }} />
+              <Bar dataKey="totalRevenue" radius={[0, 4, 4, 0]}>
+                {data.map((_, index) => (
+                  <Cell key={index} fill={BAR_COLORS[index % BAR_COLORS.length]} />
+                ))}
+              </Bar>
             </BarChart>
           </ResponsiveContainer>
         )}

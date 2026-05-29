@@ -17,7 +17,7 @@ import {
   filterServicesModal,
   formServiceModal,
   ServicesFilterValues,
-} from "./_module/service-modals.component";
+} from "./_module/components/service-modals.component";
 
 export default function ServicesPage() {
   const { useGetServices, useDeleteService } = useServicesApi();

@@ -4,16 +4,16 @@ import { RevenueTrendRange } from "@/@types/module/dashboard/response";
 import { AppHeading } from "@/components/base/app-heading";
 import { useDashboardApi } from "@/lib/apis/dashboard/dashboard-hook";
 import { useMemo, useState } from "react";
-import { DashboardDiscountSummary } from "./_module/dashboard-discount-summary";
-import { DashboardOrderBreakdown } from "./_module/dashboard-order-breakdown";
-import { DashboardRecentOrders } from "./_module/dashboard-recent-orders";
-import { DashboardRevenueChart } from "./_module/dashboard-revenue-chart";
-import { DashboardSummaryCards } from "./_module/dashboard-summary-cards";
-import { DashboardTopCustomers } from "./_module/dashboard-top-customers";
-import { DashboardTopServices } from "./_module/dashboard-top-services";
+import { DashboardDiscountSummary } from "./_module/components/dashboard-discount-summary.component";
+import { DashboardOrderBreakdown } from "./_module/components/dashboard-order-breakdown.component";
+import { DashboardRecentOrders } from "./_module/components/dashboard-recent-orders.component";
+import { DashboardRevenueChart } from "./_module/components/dashboard-revenue-chart.component";
+import { DashboardSummaryCards } from "./_module/components/dashboard-summary-cards.component";
+import { DashboardTopCustomers } from "./_module/components/dashboard-top-customers.component";
+import { DashboardTopServices } from "./_module/components/dashboard-top-services.component";
 
 export default function AppDashboardPage() {
-  const [revenueTrendRange, setRevenueTrendRange] = useState<RevenueTrendRange>("30d");
+  const [revenueTrendRange, setRevenueTrendRange] = useState<RevenueTrendRange>("this_month");
 
   const {
     useGetSummary,
@@ -48,7 +48,7 @@ export default function AppDashboardPage() {
   );
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 min-w-0 overflow-x-hidden">
       <AppHeading title="Beranda" description="Pantau performa laundry Anda secara real-time." />
 
       {/* KPI Summary Cards */}
@@ -63,7 +63,7 @@ export default function AppDashboardPage() {
       />
 
       {/* Order Breakdown + Discount Summary */}
-      <div className="grid gap-6 lg:grid-cols-2">
+      <div className="grid gap-6 lg:grid-cols-2 *:min-w-0">
         <DashboardOrderBreakdown
           data={orderBreakdownQuery.data?.data}
           isLoading={orderBreakdownQuery.isLoading}
@@ -75,7 +75,7 @@ export default function AppDashboardPage() {
       </div>
 
       {/* Top Services + Top Customers */}
-      <div className="grid gap-6 lg:grid-cols-2">
+      <div className="grid gap-6 lg:grid-cols-2 *:min-w-0">
         <DashboardTopServices data={topServicesData} isLoading={topServicesQuery.isLoading} />
         <DashboardTopCustomers data={topCustomersData} isLoading={topCustomersQuery.isLoading} />
       </div>
