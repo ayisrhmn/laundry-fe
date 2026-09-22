@@ -91,6 +91,24 @@ function AuthAdminPage() {
             />
           </form>
         </Form>
+        <div className="rounded-md border border-dashed border-muted-foreground/30 bg-muted/40 p-3 text-sm">
+          <p className="font-medium">Akun demo</p>
+          <p className="mt-1 text-muted-foreground">
+            Username: <span className="font-mono">operator1</span> · Password:{" "}
+            <span className="font-mono">operator1</span>
+          </p>
+          <Button
+            type="button"
+            variant="link"
+            className="mt-1 h-auto p-0 text-sm"
+            onClick={() => {
+              form.setValue("username", "operator1");
+              form.setValue("password", "operator1");
+            }}
+          >
+            Gunakan akun demo
+          </Button>
+        </div>
       </CardContent>
       <CardFooter>
         <Button
