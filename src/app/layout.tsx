@@ -23,8 +23,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Laundry Admin",
-  description: "Laundry Admin is the web-based dashboard for managing the Laundry ecosystem",
+  title: "Laundrin",
+  description: "Laundrin - Laundry management system",
 };
 
 export default async function RootLayout({
