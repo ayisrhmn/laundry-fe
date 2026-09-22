@@ -1,13 +1,13 @@
 "use client";
 
 import { AppAvatar } from "@/components/base/app-avatar";
-import { toast } from "@/components/ui/use-toast";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { toast } from "@/components/ui/use-toast";
 import { LayoutDashboard, LogOut, Sparkles } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
@@ -40,7 +40,7 @@ export default function CashierLayout({ children }: CashierLayoutProps) {
         <div className="flex items-center gap-2">
           <Sparkles className="h-5 w-5 text-amber-500 animate-pulse shrink-0" />
           <span className="text-sm font-extrabold tracking-widest uppercase bg-linear-to-r from-amber-500 to-yellow-600 bg-clip-text text-transparent">
-            Nami Laundry
+            Laundrin
           </span>
         </div>
 

@@ -53,7 +53,7 @@ function AuthAdminPage() {
 
     toast({
       title: "Login Berhasil",
-      description: "Anda berhasil masuk ke Nami Laundry.",
+      description: "Anda berhasil masuk ke Laundrin.",
       variant: "success",
     });
     router.push("/");
@@ -63,8 +63,8 @@ function AuthAdminPage() {
   return (
     <Card className="w-full sm:max-w-md">
       <CardHeader>
-        <CardTitle className="text-2xl">Nami Laundry</CardTitle>
-        <CardDescription>Masukkan username dan password untuk akses Nami Laundry.</CardDescription>
+        <CardTitle className="text-2xl">Laundrin</CardTitle>
+        <CardDescription>Masukkan username dan password untuk akses Laundrin.</CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
         <Form {...form}>
